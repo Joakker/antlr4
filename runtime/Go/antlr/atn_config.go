@@ -38,6 +38,7 @@ type ATNConfig interface {
 	setPrecedenceFilterSuppressed(bool)
 }
 
+// BaseATNConfig is the base type for ATN configurations.
 type BaseATNConfig struct {
 	precedenceFilterSuppressed bool
 	state                      ATNState
@@ -47,6 +48,7 @@ type BaseATNConfig struct {
 	reachesIntoOuterContext    int
 }
 
+// NewBaseATNConfig7 creates a new instance of BaseATNConfig.
 func NewBaseATNConfig7(old *BaseATNConfig) *BaseATNConfig { // TODO: Dup
 	return &BaseATNConfig{
 		state:                   old.state,
@@ -57,10 +59,12 @@ func NewBaseATNConfig7(old *BaseATNConfig) *BaseATNConfig { // TODO: Dup
 	}
 }
 
+// NewBaseATNConfig6 creates a new instance of BaseATNConfig.
 func NewBaseATNConfig6(state ATNState, alt int, context PredictionContext) *BaseATNConfig {
 	return NewBaseATNConfig5(state, alt, context, SemanticContextNone)
 }
 
+// NewBaseATNConfig5 creates a new instance of BaseATNConfig.
 func NewBaseATNConfig5(state ATNState, alt int, context PredictionContext, semanticContext SemanticContext) *BaseATNConfig {
 	if semanticContext == nil {
 		panic("semanticContext cannot be nil") // TODO: Necessary?
@@ -69,22 +73,27 @@ func NewBaseATNConfig5(state ATNState, alt int, context PredictionContext, seman
 	return &BaseATNConfig{state: state, alt: alt, context: context, semanticContext: semanticContext}
 }
 
+// NewBaseATNConfig4 creates a new instance of BaseATNConfig.
 func NewBaseATNConfig4(c ATNConfig, state ATNState) *BaseATNConfig {
 	return NewBaseATNConfig(c, state, c.GetContext(), c.GetSemanticContext())
 }
 
+// NewBaseATNConfig3 creates a new instance of BaseATNConfig.
 func NewBaseATNConfig3(c ATNConfig, state ATNState, semanticContext SemanticContext) *BaseATNConfig {
 	return NewBaseATNConfig(c, state, c.GetContext(), semanticContext)
 }
 
+// NewBaseATNConfig2 creates a new instance of BaseATNConfig.
 func NewBaseATNConfig2(c ATNConfig, semanticContext SemanticContext) *BaseATNConfig {
 	return NewBaseATNConfig(c, c.GetState(), c.GetContext(), semanticContext)
 }
 
+// NewBaseATNConfig1 creates a new instance of BaseATNConfig.
 func NewBaseATNConfig1(c ATNConfig, state ATNState, context PredictionContext) *BaseATNConfig {
 	return NewBaseATNConfig(c, state, context, c.GetSemanticContext())
 }
 
+// NewBaseATNConfig creates a new instance of BaseATNConfig.
 func NewBaseATNConfig(c ATNConfig, state ATNState, context PredictionContext, semanticContext SemanticContext) *BaseATNConfig {
 	if semanticContext == nil {
 		panic("semanticContext cannot be nil")
@@ -108,29 +117,39 @@ func (b *BaseATNConfig) setPrecedenceFilterSuppressed(v bool) {
 	b.precedenceFilterSuppressed = v
 }
 
+// GetState returns the ATNState of this config.
 func (b *BaseATNConfig) GetState() ATNState {
 	return b.state
 }
 
+// GetAlt returns the alternative number of this config.
 func (b *BaseATNConfig) GetAlt() int {
 	return b.alt
 }
 
+// SetContext sets the context of this config.
 func (b *BaseATNConfig) SetContext(v PredictionContext) {
 	b.context = v
 }
+
+// GetContext returns the context of this config.
 func (b *BaseATNConfig) GetContext() PredictionContext {
 	return b.context
 }
 
+// GetSemanticContext returns the semantic context of this config.
 func (b *BaseATNConfig) GetSemanticContext() SemanticContext {
 	return b.semanticContext
 }
 
+// GetReachesIntoOuterContext returns whether this config reaches into the outer
+// context.
 func (b *BaseATNConfig) GetReachesIntoOuterContext() int {
 	return b.reachesIntoOuterContext
 }
 
+// SetReachesIntoOuterContext sets whether this config reaches into the outer
+// context.
 func (b *BaseATNConfig) SetReachesIntoOuterContext(v int) {
 	b.reachesIntoOuterContext = v
 }
@@ -180,6 +199,7 @@ func (b *BaseATNConfig) hash() int {
 	return murmurFinish(h, 4)
 }
 
+// String implements the Stringer interface.
 func (b *BaseATNConfig) String() string {
 	var s1, s2, s3 string
 
@@ -198,16 +218,19 @@ func (b *BaseATNConfig) String() string {
 	return fmt.Sprintf("(%v,%v%v%v%v)", b.state, b.alt, s1, s2, s3)
 }
 
+// LexerATNConfig extends BaseATNConfig for lexers.
 type LexerATNConfig struct {
 	*BaseATNConfig
 	lexerActionExecutor            *LexerActionExecutor
 	passedThroughNonGreedyDecision bool
 }
 
+// NewLexerATNConfig6 creates a new instance of LexerATNConfig.
 func NewLexerATNConfig6(state ATNState, alt int, context PredictionContext) *LexerATNConfig {
 	return &LexerATNConfig{BaseATNConfig: NewBaseATNConfig5(state, alt, context, SemanticContextNone)}
 }
 
+// NewLexerATNConfig5 creates a new instance of LexerATNConfig.
 func NewLexerATNConfig5(state ATNState, alt int, context PredictionContext, lexerActionExecutor *LexerActionExecutor) *LexerATNConfig {
 	return &LexerATNConfig{
 		BaseATNConfig:       NewBaseATNConfig5(state, alt, context, SemanticContextNone),
@@ -215,6 +238,7 @@ func NewLexerATNConfig5(state ATNState, alt int, context PredictionContext, lexe
 	}
 }
 
+// NewLexerATNConfig4 creates a new instance of LexerATNConfig.
 func NewLexerATNConfig4(c *LexerATNConfig, state ATNState) *LexerATNConfig {
 	return &LexerATNConfig{
 		BaseATNConfig:                  NewBaseATNConfig(c, state, c.GetContext(), c.GetSemanticContext()),
@@ -223,6 +247,7 @@ func NewLexerATNConfig4(c *LexerATNConfig, state ATNState) *LexerATNConfig {
 	}
 }
 
+// NewLexerATNConfig3 creates a new instance of LexerATNConfig.
 func NewLexerATNConfig3(c *LexerATNConfig, state ATNState, lexerActionExecutor *LexerActionExecutor) *LexerATNConfig {
 	return &LexerATNConfig{
 		BaseATNConfig:                  NewBaseATNConfig(c, state, c.GetContext(), c.GetSemanticContext()),
@@ -231,6 +256,7 @@ func NewLexerATNConfig3(c *LexerATNConfig, state ATNState, lexerActionExecutor *
 	}
 }
 
+// NewLexerATNConfig2 creates a new instance of LexerATNConfig.
 func NewLexerATNConfig2(c *LexerATNConfig, state ATNState, context PredictionContext) *LexerATNConfig {
 	return &LexerATNConfig{
 		BaseATNConfig:                  NewBaseATNConfig(c, state, context, c.GetSemanticContext()),
@@ -239,6 +265,7 @@ func NewLexerATNConfig2(c *LexerATNConfig, state ATNState, context PredictionCon
 	}
 }
 
+// NewLexerATNConfig1 creates a new instance of LexerATNConfig.
 func NewLexerATNConfig1(state ATNState, alt int, context PredictionContext) *LexerATNConfig {
 	return &LexerATNConfig{BaseATNConfig: NewBaseATNConfig5(state, alt, context, SemanticContextNone)}
 }
@@ -286,7 +313,6 @@ func (l *LexerATNConfig) equals(other interface{}) bool {
 
 	return l.BaseATNConfig.equals(othert.BaseATNConfig)
 }
-
 
 func checkNonGreedyDecision(source *LexerATNConfig, target ATNState) bool {
 	var ds, ok = target.(DecisionState)
