@@ -284,18 +284,18 @@ func (a *altDict) values() []interface{} {
 	return vs
 }
 
-type doubleDict struct {
+type DoubleDict struct {
 	data map[int]map[int]interface{}
 }
 
-func newDoubleDict() *doubleDict {
-	dd := &doubleDict{
+func newDoubleDict() *DoubleDict {
+	dd := &DoubleDict{
 		data: make(map[int]map[int]interface{}),
 	}
 	return dd
 }
 
-func (d *doubleDict) Get(a, b int) interface{} {
+func (d *DoubleDict) Get(a, b int) interface{} {
 	data := d.data[a]
 
 	if data == nil {
@@ -305,7 +305,7 @@ func (d *doubleDict) Get(a, b int) interface{} {
 	return data[b]
 }
 
-func (d *doubleDict) set(a, b int, o interface{}) {
+func (d *DoubleDict) set(a, b int, o interface{}) {
 	data := d.data[a]
 
 	if data == nil {

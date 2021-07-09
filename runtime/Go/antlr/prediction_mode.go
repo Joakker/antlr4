@@ -171,7 +171,7 @@ func PredictionModehasSLLConflictTerminatingPrediction(mode int, configs ATNConf
 			for _, c := range configs.GetItems() {
 
 				//				NewBaseATNConfig({semanticContext:}, c)
-				c = NewBaseATNConfig2(c, SemanticContextNone)
+				c = ATNConfigWithContext(c, SemanticContextNone)
 				dup.Add(c, nil)
 			}
 			configs = dup

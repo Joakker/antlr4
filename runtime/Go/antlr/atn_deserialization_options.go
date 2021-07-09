@@ -4,9 +4,9 @@
 
 package antlr
 
-// ATNDeserializationOptionsdefaultOptions is the default settings for
+// ATNDeserializationDefaultOptions is the default settings for
 // deserializing abstract transition networks.
-var ATNDeserializationOptionsdefaultOptions = &ATNDeserializationOptions{true, false, false}
+var ATNDeserializationDefaultOptions = &ATNDeserializationOptions{true, false, false}
 
 // ATNDeserializationOptions represents the settings for deserializing abstract
 // transition networks.

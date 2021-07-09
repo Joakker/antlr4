@@ -52,7 +52,7 @@ type ATNDeserializer struct {
 // NewATNDeserializer returns a new instance of ATNDeserializer.
 func NewATNDeserializer(options *ATNDeserializationOptions) *ATNDeserializer {
 	if options == nil {
-		options = ATNDeserializationOptionsdefaultOptions
+		options = ATNDeserializationDefaultOptions
 	}
 
 	return &ATNDeserializer{deserializationOptions: options}

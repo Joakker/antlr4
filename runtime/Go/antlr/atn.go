@@ -4,7 +4,7 @@
 
 package antlr
 
-// ATNInvalidAltNumber represents an invalid ATN alternative
+// ATNInvalidAltNumber represents an invalid ATN alternative.
 var ATNInvalidAltNumber int
 
 // ATN represents the augmented translation network nodes used by the LL(*)

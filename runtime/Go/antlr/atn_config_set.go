@@ -9,7 +9,7 @@ import "fmt"
 // ATNConfigSet extends ATNConfig in the form of an unordered set.
 type ATNConfigSet interface {
 	hash() int
-	Add(ATNConfig, *doubleDict) bool
+	Add(ATNConfig, *DoubleDict) bool
 	AddAll([]ATNConfig) bool
 
 	getStates() *_set
@@ -105,7 +105,7 @@ func NewBaseATNConfigSet(fullCtx bool) *BaseATNConfigSet {
 // ATNConfig.state, i is the ATNConfig.alt, and pi is the
 // ATNConfig.semanticContext. We use (s,i,pi) as the key. Updates
 // dipsIntoOuterContext and hasSemanticContext when necessary.
-func (b *BaseATNConfigSet) Add(config ATNConfig, mergeCache *doubleDict) bool {
+func (b *BaseATNConfigSet) Add(config ATNConfig, mergeCache *DoubleDict) bool {
 	if b.readOnly {
 		panic("set is read-only")
 	}
@@ -300,7 +300,7 @@ func (b *BaseATNConfigSet) FullContext() bool {
 	return b.fullCtx
 }
 
-// GetDipsIntoOuterContext returns true is this set dips into it's outer
+// GetDipsIntoOuterContext returns whether this set dips into its outer
 // context.
 func (b *BaseATNConfigSet) GetDipsIntoOuterContext() bool {
 	return b.dipsIntoOuterContext
@@ -331,12 +331,12 @@ func (b *BaseATNConfigSet) setConflictingAlts(v *bitSet) {
 	b.conflictingAlts = v
 }
 
-// ReadOnly returns true if this set is read-only.
+// ReadOnly returns whether this set is read-only.
 func (b *BaseATNConfigSet) ReadOnly() bool {
 	return b.readOnly
 }
 
-// SetReadOnly controls whether this set is read-only or not.
+// SetReadOnly controls whether this set is read-only.
 func (b *BaseATNConfigSet) SetReadOnly(readOnly bool) {
 	b.readOnly = readOnly
 
@@ -345,7 +345,9 @@ func (b *BaseATNConfigSet) SetReadOnly(readOnly bool) {
 	}
 }
 
-// String implements the stringer interface.
+// String implements the stringer interface. The returned string has the format:
+//
+//		[<configs>],<flags>
 func (b *BaseATNConfigSet) String() string {
 	s := "["
 
@@ -378,7 +380,7 @@ func (b *BaseATNConfigSet) String() string {
 	return s
 }
 
-// OrderedATNConfigSet extends BaseATNConfigSet
+// OrderedATNConfigSet extends BaseATNConfigSet.
 type OrderedATNConfigSet struct {
 	*BaseATNConfigSet
 }

@@ -34,7 +34,7 @@ type ParserATNSimulator struct {
 	// This maps graphs a and b to merged result c. (a,b)&rarrc. We can avoid
 	// the merge if we ever see a and b again.  Note that (b,a)&rarrc should
 	// also be examined during cache lookup.
-	mergeCache   *doubleDict
+	mergeCache   *DoubleDict
 	outerContext ParserRuleContext
 }
 
@@ -740,7 +740,7 @@ func (p *ParserATNSimulator) applyPrecedenceFilter(configs ATNConfigSet) ATNConf
 		}
 		statesFromAlt1[config.GetState().GetStateNumber()] = config.GetContext()
 		if updatedContext != config.GetSemanticContext() {
-			configSet.Add(NewBaseATNConfig2(config, updatedContext), p.mergeCache)
+			configSet.Add(ATNConfigWithContext(config, updatedContext), p.mergeCache)
 		} else {
 			configSet.Add(config, p.mergeCache)
 		}
@@ -993,7 +993,7 @@ func (p *ParserATNSimulator) closureCheckingStopState(config ATNConfig, configs 
 			for i := 0; i < config.GetContext().length(); i++ {
 				if config.GetContext().getReturnState(i) == BasePredictionContextEmptyReturnState {
 					if fullCtx {
-						configs.Add(NewBaseATNConfig1(config, config.GetState(), BasePredictionContextEMPTY), p.mergeCache)
+						configs.Add(ATNConfigWithStateContext(config, config.GetState(), BasePredictionContextEMPTY), p.mergeCache)
 						continue
 					} else {
 						// we have no context info, just chase follow links (if greedy)
@@ -1225,7 +1225,7 @@ func (p *ParserATNSimulator) ruleTransition(config ATNConfig, t *RuleTransition)
 	}
 	returnState := t.followState
 	newContext := SingletonBasePredictionContextCreate(config.GetContext(), returnState.GetStateNumber())
-	return NewBaseATNConfig1(config, t.getTarget(), newContext)
+	return ATNConfigWithStateContext(config, t.getTarget(), newContext)
 }
 
 func (p *ParserATNSimulator) getConflictingAlts(configs ATNConfigSet) *bitSet {

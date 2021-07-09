@@ -38,7 +38,7 @@ type LexerATNSimulator struct {
 
 	recog          Lexer
 	predictionMode int
-	mergeCache     doubleDict
+	mergeCache     DoubleDict
 	// The current token's starting index into the character stream.
 	// Shared across DFA to ATN simulation in case the ATN fails and the
 	// DFA did not have a previous accept state. In l case, we use the
@@ -326,7 +326,7 @@ func (l *LexerATNSimulator) computeStartState(input CharStream, p ATNState) *Ord
 	configs := NewOrderedATNConfigSet()
 	for i := 0; i < len(p.GetTransitions()); i++ {
 		target := p.GetTransitions()[i].getTarget()
-		cfg := NewLexerATNConfig6(target, i+1, BasePredictionContextEMPTY)
+		cfg := NewLexerATNConfig(target, i+1, BasePredictionContextEMPTY)
 		l.closure(input, cfg, configs, false, false, false)
 	}
 

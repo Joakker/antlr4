@@ -371,7 +371,7 @@ func predictionContextFromRuleContext(a *ATN, outerContext RuleContext) Predicti
 	return SingletonBasePredictionContextCreate(parent, transition.(*RuleTransition).followState.GetStateNumber())
 }
 
-func merge(a, b PredictionContext, rootIsWildcard bool, mergeCache *doubleDict) PredictionContext {
+func merge(a, b PredictionContext, rootIsWildcard bool, mergeCache *DoubleDict) PredictionContext {
 	// share same graph if both same
 	if a == b {
 		return a
@@ -434,7 +434,7 @@ func merge(a, b PredictionContext, rootIsWildcard bool, mergeCache *doubleDict) 
 // otherwise false to indicate a full-context merge
 // @param mergeCache
 // /
-func mergeSingletons(a, b *BaseSingletonPredictionContext, rootIsWildcard bool, mergeCache *doubleDict) PredictionContext {
+func mergeSingletons(a, b *BaseSingletonPredictionContext, rootIsWildcard bool, mergeCache *DoubleDict) PredictionContext {
 	if mergeCache != nil {
 		previous := mergeCache.Get(a.hash(), b.hash())
 		if previous != nil {
@@ -594,7 +594,7 @@ func mergeRoot(a, b SingletonPredictionContext, rootIsWildcard bool) PredictionC
 // SingletonBasePredictionContext.<br>
 // <embed src="images/ArrayMerge_EqualTop.svg" type="image/svg+xml"/>
 // /
-func mergeArrays(a, b *ArrayPredictionContext, rootIsWildcard bool, mergeCache *doubleDict) PredictionContext {
+func mergeArrays(a, b *ArrayPredictionContext, rootIsWildcard bool, mergeCache *DoubleDict) PredictionContext {
 	if mergeCache != nil {
 		previous := mergeCache.Get(a.hash(), b.hash())
 		if previous != nil {
